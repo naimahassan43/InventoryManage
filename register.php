@@ -44,7 +44,7 @@
       </div>
       <div class="col-12">
         <p> <span>***</span> By creating an account you
-          agree to our terms and conditions.</p>
+          agree to our terms and conditions ...</p>
       </div>
       <div class="col-12">
         <input type="submit" class="btn btn-primary" value="submit">
