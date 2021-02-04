@@ -1,3 +1,7 @@
+<?php
+  include 'auth/connection.php';
+
+?>
 <!doctype html>
 <html lang="en">
 
