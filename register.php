@@ -1,5 +1,27 @@
 <?php
   include 'auth/connection.php';
+  $conn= connect();
+  $message='';
+  if (isset($_POST['submit'])){
+    $name       = $_POST['name'];
+    $uName      = $_POST['uname'];
+    $email      = $_POST['email'] ? $_POST['email']:'';
+    $password   = $_POST['password'];
+    $rePassword = $_POST['re-password'];
+
+    if($password === $rePassword){
+      $sq = "INSERT INTO users_info(name, u_name, email, password) VALUES ('$name','$uName','$email', '$password')";
+     
+      if($conn->query($sq)===true){
+        header('Location: login.php');
+      }else{
+        $message ="Connection not established!";
+      }
+    }
+    else{
+      $message ="Password does not match!";
+    }
+  }
 
 ?>
 <!doctype html>
@@ -21,7 +43,10 @@
 <body>
 
   <div class="container">
-    <form class="row g-3" method="post" action="register.php" enctype="multipart/form-data">
+    <span>
+      <?php if ($message!='') echo $message;?>
+    </span>
+    <form class="row g-2" method="POST" action="register.php" enctype="multipart/form-data">
 
       <h1 class="text-center mt-4">Registration Form</h1>
       <hr>
@@ -53,7 +78,7 @@
           agree to our terms and conditions ...</p>
       </div>
       <div class="col-12">
-        <input type="submit" class="btn btn-primary" value="submit">
+        <input type="submit" class="btn btn-primary" value="Submit" name="submit">
       </div>
       <div class="col-12">
         <p>Already have an account? <a href="login.php">Sign in</a></p>
