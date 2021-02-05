@@ -1,15 +1,21 @@
 <?php
+session_start();
+$_SESSION['user']='';
+$_SESSION['userid']='';
 include 'auth/connection.php';
 $conn= connect();
 $message='';
 if (isset($_POST['submit'])) {
-  $uName = $_POST['name'];
+  $uName = $_POST['uname'];
   $pass = $_POST['pass'];
 
   $sql = "SELECT * FROM users_info WHERE u_name='$uName' and password='$pass'";
   $res = $conn->query($sql);
 
   if (mysqli_num_rows($res)==1) {
+    $user                 = mysqli_fetch_assoc($res);
+    $_SESSION['user']     = $user['name'];
+    $_SESSION['userid']     = $user['id'];
     header('Location:dashboard.php');
   }
   else {
@@ -25,7 +31,14 @@ if (isset($_POST['submit'])) {
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+  <!-- Latest compiled JavaScript -->
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css"> -->
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -50,7 +63,7 @@ if (isset($_POST['submit'])) {
             <?php if ($message!='') echo $message;?>
           </p>
           <div class="user-input">
-            <input name="name" type="text" class="login-input" id="name" placeholder="Username">
+            <input name="uname" type="text" class="login-input" id="name" placeholder="Username">
             <i class="fas fa-user">
             </i>
           </div>
